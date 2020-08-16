@@ -1,0 +1,9 @@
+{
+    "theme": {
+            "fg0": "gray"
+        },
+    "color": {
+            "bg0": "teal",
+            "bg1": "green"
+        }
+}
