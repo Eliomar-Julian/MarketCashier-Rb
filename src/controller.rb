@@ -24,11 +24,16 @@ class App < Application
         $cod = @en_codig.get
         @lista = db_query $cod
         if @lista.length > 0
+            tmp_lmt = @lista[0][1]
+            tmp_lmt = tmp_lmt[0, 30] # limita a string a 30 caracteres
+            tmp_des = tmp_lmt + "\n\n" + "Código:  " + @lista[0][0] + "\n\n"
             tmp_txt = @lista[0][2]
             tmp_txt = "R$ #{'%.2f' % tmp_txt}"
             @lb_p_atu.configure :text => tmp_txt.gsub('.', ',')
+            @lb_show_.configure :text => tmp_des + "Preço:  " + tmp_txt.gsub('.', ',')
         else
             @lb_p_atu.configure :text => 'R$ 0,00'
+            @lb_show_.configure :text => 'Produto'
         end
     end
 

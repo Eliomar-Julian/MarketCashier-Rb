@@ -1,26 +1,42 @@
 require 'tk'
 require_relative 'loadconf'
+require_relative 'add'
+
 
 class Application
     FG  = read['theme']['fg0']
     BG  = read['color']['bg0']
     BG2 = read['color']['bg1']
-    def initialize 
+    def initialize
         @root = Tk::Root.new do title "Sale Market - by Leo" end
         wid = @root.winfo_screenwidth
-        hei = @root.winfo_screenheight
         center_x = Integer (wid - 800) / 2
-        center_y = Integer (hei - 600) / 2
-        @root.geometry "#{800}x#{600}+#{center_x}+#{center_y}"
+        @root.geometry "#{800}x#{600}+#{center_x}+0"
         @root.configure :bg => BG
+        self.menu
         self.start_widgets
+    end
+
+    def menu 
+        @menu = Tk::Menu.new @root
+        @sb_menu = Tk::Menu.new @menu do tearoff 0 end
+        @sb_menu.add_command :label => 'Cadastrar | Remover | Editar cadastros', 
+        :command => proc { self.des }
+        @menu.add_cascade :label => 'Produtos', :menu => @sb_menu
+        @menu_theme = Tk::Menu.new @menu do  tearoff 0 end
+        @menu_theme.add_command :label => 'Configurar tema'
+        @menu_theme.add_separator
+        @menu_theme.add_command :label => 'Mudar frase de apresentação'
+        @menu.add_cascade :label => 'Aparência', :menu => @menu_theme
+        
+        @root.configure :menu => @menu
     end
 
     def start_widgets
         # // configure fonts
         @font_title = TkFont.new :family => 'Arial', :size => 50, :weight => 'bold'
         @font_media = TkFont.new :family => 'Arial', :size => 20, :weight => 'bold'
-        @font_minim = TkFont.new :family => 'Arial', :size => 8
+        @font_minim = TkFont.new :family => 'Arial', :size => 15
         
         # // Configure Frames
         @frame1 = Tk::Frame.new @root
@@ -44,6 +60,7 @@ class Application
         @lb_codig = Tk::Label.new @frame3 do text 'Código' end # frame3
         @en_codig = Tk::Entry.new @frame3
         @lv_codig = Tk::Listbox.new @frame3
+        @lb_show_ = Tk::Label.new @frame3 do  text 'descrição' end
 
         @lb_preco = Tk::Label.new @frame4 do text 'Preço' end # frame4
         @lb_p_atu = Tk::Label.new @frame4 do text 'R$ 0,00' end
@@ -65,6 +82,7 @@ class Application
         @lb_p_atu.configure :font => @font_title, :bg => BG2, :fg => 'blue'
         @lb_total.configure :font => @font_media, :bg => BG2
         @lb_p_tot.configure :font => @font_title, :bg => BG2, :fg => 'orange'
+        @lb_show_.configure :font => @font_minim, :bg => BG,  :fg => 'blue'
         
         # // position widgets
         @lb_title.pack :fill => 'x'
@@ -80,9 +98,14 @@ class Application
         @lb_preco.pack :expand => true
         @lb_p_atu.pack :expand => true
         @lb_total.pack :expand => true
-        @lb_p_tot.pack :expand => true    
+        @lb_p_tot.pack :expand => true
+        @lb_show_.pack :expand => true    
     end
 
+    def des 
+        #@root.destroy
+        manipulation
+    end
     def run  
         Tk.mainloop 
     end
