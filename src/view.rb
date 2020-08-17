@@ -21,7 +21,7 @@ class Application
         @menu = Tk::Menu.new @root
         @sb_menu = Tk::Menu.new @menu do tearoff 0 end
         @sb_menu.add_command :label => 'Cadastrar | Remover | Editar cadastros', 
-        :command => proc { self.des }
+        :command => proc { manipulation }
         @menu.add_cascade :label => 'Produtos', :menu => @sb_menu
         @menu_theme = Tk::Menu.new @menu do  tearoff 0 end
         @menu_theme.add_command :label => 'Configurar tema'
@@ -102,10 +102,6 @@ class Application
         @lb_show_.pack :expand => true    
     end
 
-    def des 
-        #@root.destroy
-        manipulation
-    end
     def run  
         Tk.mainloop 
     end

@@ -31,13 +31,21 @@ def db_search busca
     return lista
 end
 
-def db_security nome
+def db_listing
     lista = [] 
-    achado = $db.query "SELECT nome, senha FROM usuarios WHERE nome=?", nome 
+    achado = $db.query "SELECT * FROM produtos" 
     achado.each do |vals| 
         lista.push vals
     end
     return lista
 end
 
+def db_remove prod
+    $db.query "DELETE FROM produtos WHERE prod=?", prod
+end
 
+def db_update cod, pro, pre 
+    $db.query "UPDATE produtos SET cod=? WHERE prod=?",cod, pro
+    $db.query "UPDATE produtos SET prec=? WHERE prod=?",pre, pro
+
+end
