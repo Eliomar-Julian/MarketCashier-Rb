@@ -96,25 +96,37 @@ def manipulation
     # /// Lista todos os produtos cadastrados na listBox
     # // o reverse é importatente para a função edit()
     def listar 
+        col_a = 30
         @lb_in.clear
         $lista = db_listing
-        $lista.each do |pr| 
-            @lb_in.insert 0, " "*5 + pr[1]
+        $lista.each do |pr|
+            a = pr[0].length
+            @lb_in.insert 0, "cod: " + pr[0] + " "*(col_a - a) + "|  " + pr[1]
         end
     end
 
+    # // Remove itens do banco de dados
     def remove 
         begin
             indice = @lb_in.curselection
             valor  = @lb_in.value            
             item   = valor[indice[0]].strip
+            $i = nil
+            tam = item.length
+            for x in 0..tam do 
+                if item[x] == '|' 
+                    $i = x
+                end
+            end
+            item = item[$i + 2, tam]
+            print item
             resp   = Tk::Message.messageBox :icon => 'warning',
                     :title => 'Excluir', :type => 'yesno',
                     :message =>'Tem certeza que deseja excluir ' + item + ' do cadastro?'
             if resp == 'no'
                 return
             end
-            db_remove item
+            db_remove item.strip
             @lb_in.delete indice
             @ent_search.delete 0, 100
         rescue

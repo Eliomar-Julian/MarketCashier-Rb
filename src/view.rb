@@ -4,9 +4,11 @@ require_relative 'add'
 
 
 class Application
-    FG  = read['theme']['fg0']
-    BG  = read['color']['bg0']
-    BG2 = read['color']['bg1']
+    FG  = read['theme']['foregroundButtons']
+    BG  = read['theme']['backgroundColor']
+    BG2 = read['theme']['auxiliarBackground']
+    MKC = read['theme']['marketColor']
+    BCB = read['theme']['backgroundButtons']
     def initialize
         @root = Tk::Root.new do title "Sale Market - by Leo" end
         wid = @root.winfo_screenwidth
@@ -68,11 +70,11 @@ class Application
         @lb_p_tot = Tk::Label.new @frame4 do text 'R$ 0,00' end
 
         # // configure widgets
-        @lb_title.configure :font => @font_title, :bg => BG, :fg => FG
-        @bt_final.configure :font => @font_media, :fg => FG
-        @bt_cance.configure :font => @font_media, :fg => FG 
-        @bt_retir.configure :font => @font_media, :fg => FG 
-        @bt_liber.configure :font => @font_media, :fg => FG
+        @lb_title.configure :font => @font_title, :bg => BG, :fg => MKC
+        @bt_final.configure :font => @font_media, :fg => FG, :bg => BCB
+        @bt_cance.configure :font => @font_media, :fg => FG, :bg => BCB 
+        @bt_retir.configure :font => @font_media, :fg => FG, :bg => BCB 
+        @bt_liber.configure :font => @font_media, :fg => FG, :bg => BCB
         
         @lb_codig.configure :font => @font_media, :bg => BG, :fg => FG
         @en_codig.configure :font => @font_media

@@ -1,5 +1,6 @@
 require_relative 'view'
 require_relative 'crud'
+require_relative 'loadconf'
 require 'tk'
 
 class App < Application
@@ -53,7 +54,7 @@ class App < Application
     def finaliza
         tr = Tk::Toplevel.new do 
             title 'Troco '
-            bg 'teal'
+            bg BG
         end
         tr.geometry "300x300+400+100"
 
@@ -72,8 +73,8 @@ class App < Application
         
         lb1 = Tk::Label.new tr do
             text 'Dinheiro'
-            bg 'teal'
-            fg 'white'
+            bg BG
+            fg FG
             pack :expand => true, :fill => 'x'
         end
         lb1.configure :font => @font_media
@@ -86,16 +87,16 @@ class App < Application
         
         lb2 = Tk::Label.new tr do
             text 'Troco'
-            bg 'teal'
-            fg 'white'
+            bg BG
+            fg FG
             pack :expand => true, :fill => 'x'
         end
         lb2.configure :font => @font_media 
 
         @lb_troco = Tk::Label.new tr do 
             text 'R$ 0,00'
-            bg 'teal'
-            fg 'white' 
+            bg BG
+            fg FG 
             pack :expand => true, :fill => 'x'
         end
         @lb_troco.configure :font => @font_title
@@ -109,11 +110,14 @@ class App < Application
         Tem certeza que deseja liberar o caixa?
         essa ação irá limpar a venda atual.
         '''
-        if resp == 'yes' 
-            @lv_codig.clear 
-            @lb_p_tot.configure :text => 'R$ 0,00'
-            @en_codig.delete 0, $cod.length
-            $val = 0
+        if resp == 'yes'
+            begin 
+                @lv_codig.clear 
+                @lb_p_tot.configure :text => 'R$ 0,00'
+                @en_codig.delete 0, $cod.length
+                $val = 0
+            rescue 
+            end
         end        
     end
 

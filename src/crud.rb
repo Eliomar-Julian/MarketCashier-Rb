@@ -16,18 +16,14 @@ def db_query cod
         return lista 
     end
     itens = $db.query "SELECT cod, prod, prec FROM produtos WHERE cod=?", cod
-    itens.each do |results| 
-        lista.push results
-    end
+    itens.each { |results| lista.push results }
     return lista
 end
 
 def db_search busca
     lista = [] 
     achado = $db.query "SELECT cod, prod, prec FROM produtos WHERE prod LIKE?", '%' + busca + '%'
-    achado.each do |vals| 
-        lista.push vals
-    end
+    achado.map { |vals| lista.push vals }
     return lista
 end
 
