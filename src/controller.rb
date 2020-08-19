@@ -21,7 +21,7 @@ class App < Application
     end
 
     # // busca o preço dos itens a cada tecla pressionada caso seja possivel realizar a busca
-    def tecla 
+    def tecla
         $cod = @en_codig.get
         @lista = db_query $cod
         if @lista.length > 0
@@ -57,6 +57,7 @@ class App < Application
             bg BG
         end
         tr.geometry "300x300+400+100"
+        tr.iconbitmap '../images/icone.ico'
 
         def math_ #calculos para exibir nos labels da interface
             min = @ent.get.gsub(",", ".").to_f

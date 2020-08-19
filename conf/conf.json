@@ -1,10 +1,1 @@
-{
-    "theme": {
-            "foregroundButtons": "white",
-            "backgroundButtons": "teal",
-            "backgroundColor": "teal",
-            "marketColor": "white",
-            "auxiliarBackground": "seagreen"
-    },
-    "nome": "Mercadinho"
-}
+{"theme":{"foregroundButtons":"white","backgroundButtons":"teal","backgroundColor":"teal","marketColor":"white","auxiliarBackground":"seagreen"},"nome":"Mercado"}

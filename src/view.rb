@@ -21,6 +21,7 @@ class Application
         center_x = Integer (wid - 800) / 2
         @root.geometry "#{800}x#{600}+#{center_x}+0"
         @root.configure :bg => BG
+        @root.iconbitmap '../images/icone.ico'
         self.menu
         self.start_widgets
     end
@@ -46,18 +47,24 @@ class Application
 
         @menu.add_cascade :label => 'Aparência', 
                           :menu => @menu_theme
+
+        @menu_caixa = Tk::Menu.new @menu do 
+            tearoff 0
+        end
+        @menu_caixa.add_command :label => 'Encerrar o caixa',
+                :command => proc { encerra }
+        @menu.add_cascade :label => 'Faturamento', :menu => @menu_caixa
+        
         @root.configure   :menu => @menu
     end
 
     def start_widgets
         # // configure fonts
         @font_title = TkFont.new :family => 'Arial', 
-                                 :size => 50,
-                                 :weight => 'bold'
+                                 :size => 50, :weight => 'bold'
 
         @font_media = TkFont.new :family => 'Arial',
-                                 :size => 20,
-                                 :weight => 'bold'
+                                 :size => 20, :weight => 'bold'
 
         @font_minim = TkFont.new :family => 'Arial',
                                  :size => 15

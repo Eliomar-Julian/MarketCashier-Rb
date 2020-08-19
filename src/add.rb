@@ -98,7 +98,7 @@ def manipulation
                                :message => 'Alterado com sucesso'
         @ent2.configure :state => 'normal'
         @bt0.configure :state =>  'normal'
-        @bt1.configure :state =>  'normal'
+        @bt1.configure :state =>  'disabled'
         @bt2.configure :state =>  'normal'
         @bt3.configure :state =>  'normal'
         @bt4.configure :state =>  'normal'
@@ -110,13 +110,14 @@ def manipulation
     
     # /// Lista todos os produtos cadastrados na listBox
     # o pipe '|' é importante para o filtro da lista caso falte a listagem não funciona
-    def listar 
+    def listar
+        $estado = 1 
         col_a = 30
         @lb_in.clear
         $lista = db_listing
         $lista.each do |pr|
             a = pr[0].length
-            @lb_in.insert 0, "cod: " + pr[0] + " "*(col_a - a) + "|  " + pr[1]
+            @lb_in.insert 0, "codigo: " + pr[0] + " "*(col_a - a) + "|  " + pr[1]
         end
     end
 
@@ -153,6 +154,9 @@ def manipulation
     # // faz a busca dinamica no campo de pesquisa
     def busca 
         @lb_in.clear
+        if !$estado.nil?
+            @bt1.configure :state => 'normal'
+        end
         lista = db_search @ent_search.get
         lista.each do |itens|
             @lb_in.insert 0, " "*5 + itens[1]
@@ -167,6 +171,7 @@ def manipulation
     end
     app.geometry "650x400+300+0"
     app.resizable false, false
+    app.iconbitmap '../images/icone.ico'
 
     fonte = TkFont.new :size => 15,
                        :family => 'Arial',
@@ -278,7 +283,8 @@ def manipulation
         pack :side => 'left',
              :padx => 10 
     end
-    @bt1.configure :command => proc { edit }
+    @bt1.configure :command => proc { edit },
+        :state => 'disabled', :bg => 'yellow'
     @bt1.bind 'Return', proc { edit }
 
     @bt2 = Tk::Button.new frame3 do
