@@ -1,8 +1,153 @@
 require 'json'
 require 'tk'
+require_relative 'view'
 
+# // leitura de configuração de das cores
 def read 
     js = File.read '../conf/conf.json'
     dict = JSON.parse js
     return dict
+end
+
+def nome
+    def mude 
+        dict = read 
+        dict['nome'] = @en.get.strip
+        trans = JSON.generate dict
+        fil = File.new '../conf/conf.json', 'w'
+        fil.puts trans
+        fil.close
+        Tk::Message.messageBox :icon => 'info',
+            :title => 'Marketing alterado',
+            :message => 'O marketing foi alterado com sucesso!'
+        @nn.destroy
+    end
+
+    @nn = Tk::Toplevel.new do 
+        title 'Alterar o marketing'
+        bg read['theme']['backgroundColor']
+    end
+    @nn.minsize 300, 200
+
+    lb = Tk::Label.new @nn do 
+        text 'Alterar: '
+        bg read['theme']['backgroundColor']
+    end
+
+    @en = Tk::Entry.new @nn
+    @en.insert 0, read['nome']
+    @en.selection_range 0, 100
+
+    bt = Tk::Button.new @nn do 
+        text 'Mudar'
+    end
+
+    lb.pack :side => 'left', :expand => true
+    @en.pack :side => 'left', :expand => true
+    bt.pack :side => 'left', :expand => true
+
+    bt.configure :command => proc { mude }
+end
+
+# // manipulação da aparencia
+def tema
+    @main = Tk::Toplevel.new do 
+        bg read['theme']['backgroundColor']
+        title "Configurar aparência "
+    end
+    @main.geometry '450x450+400+0'
+    
+    # // manipula a hash de cores de acordo com o id do botão pressionado
+    def manipule id
+        dict = read
+        case id 
+        when 1
+            colorbutton = Tk.chooseColor
+            if colorbutton == "" 
+                return
+            end
+            dict["theme"]["backgroundButtons"] = colorbutton.to_s
+        when 2
+            colorfont = Tk.chooseColor
+            if colorfont == ""
+                return 
+            end
+            dict["theme"]["foregroundButtons"] = colorfont.to_s
+        when 3
+            colorback = Tk.chooseColor
+            if colorback == ""
+                return
+            end
+            dict["theme"]["backgroundColor"] = colorback.to_s
+        when 4
+            coloraux = Tk.chooseColor
+            if coloraux == ""
+                return
+            end
+            dict["theme"]["auxiliarBackground"] = coloraux.to_s
+        when 5
+            colormarket = Tk.chooseColor
+            if colormarket == ""
+                return
+            end
+            dict["theme"]["marketColor"] = colormarket.to_s
+        end
+        novo = JSON.generate dict
+        arq = File.new "../conf/conf.json", "w"
+        arq.puts novo
+        arq.close
+        @main.destroy
+        tema
+    end
+    
+    # // Todos os botões logo abaixo *devem fornecer um id para identificação
+    bt1 = Tk::Button.new @main do 
+        text "cor dos botões"
+        width 25
+        height 5
+        bg read['theme']['backgroundButtons']
+    end
+    bt1.pack :expand => true,
+             :side => 'top'
+    bt1.configure :command => proc { manipule 1 }
+
+    bt2 = Tk::Button.new @main do 
+        text "cor da fonte"
+        width 25
+        height 5
+        bg read['theme']['foregroundButtons']
+    end
+    bt2.pack :expand => true,
+             :side => 'top'
+    bt2.configure :command => proc { manipule 2 }
+
+    bt3 = Tk::Button.new @main do 
+        text "cor de fundo"
+        width 25
+        height 5
+        bg read['theme']['backgroundColor']
+    end
+    bt3.pack :expand => true,
+             :side => 'top'
+    bt3.configure :command => proc { manipule 3 }
+
+    bt4 = Tk::Button.new @main do 
+        text "cor da lateral"
+        width 25
+        height 5
+        bg read['theme']['auxiliarBackground']
+    end
+    bt4.pack :expand => true,
+            :side => 'top'
+    bt4.configure :command => proc { manipule 4 }
+
+    bt5 = Tk::Button.new @main do 
+        text "cor da propaganda"
+        width 25
+        height 5
+        bg read['theme']['marketColor']
+    end
+    bt5.pack :expand => true,
+             :side => 'top'
+    bt5.configure :command => proc { manipule 5 }
 end

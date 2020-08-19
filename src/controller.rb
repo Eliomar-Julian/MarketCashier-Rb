@@ -61,11 +61,12 @@ class App < Application
         def math_ #calculos para exibir nos labels da interface
             min = @ent.get.gsub(",", ".").to_f
             v = min - $val
-            faturamento = File.open '../lib/ftr', 'a'
+            faturamento = File.open '../conf/ftr', 'a'
             faturamento.puts $val
             faturamento.close
             imprimir = "R$ #{'%.2f' % v}".gsub('.', ',')
-            @lb_troco.configure :text => imprimir, :fg => 'orange'
+            @lb_troco.configure :text => imprimir, 
+                                :fg => 'orange'
             if v < 0 
                 @lb_troco.configure :fg => 'red'
             end
@@ -79,7 +80,10 @@ class App < Application
         end
         lb1.configure :font => @font_media
         
-        @ent = Tk::Entry.new tr do pack :expand => true, :fill => 'x' end 
+        @ent = Tk::Entry.new tr do
+            pack :expand => true, 
+                 :fill => 'x' 
+        end 
         @ent.configure :font => @font_media
         @ent.bind 'Return', proc { math_ }
         @ent.bind 'Escape', proc { tr.destroy }
@@ -89,7 +93,8 @@ class App < Application
             text 'Troco'
             bg BG
             fg FG
-            pack :expand => true, :fill => 'x'
+            pack :expand => true,
+                 :fill => 'x'
         end
         lb2.configure :font => @font_media 
 
@@ -97,7 +102,8 @@ class App < Application
             text 'R$ 0,00'
             bg BG
             fg FG 
-            pack :expand => true, :fill => 'x'
+            pack :expand => true,
+                 :fill => 'x'
         end
         @lb_troco.configure :font => @font_title
     end
@@ -106,7 +112,8 @@ class App < Application
     def limpar
         resp = Tk::Message.messageBox :type=>'yesno',
         :title => 'Liberar o Caixa',
-        :message => '''
+        :message => 
+        '''
         Tem certeza que deseja liberar o caixa?
         essa ação irá limpar a venda atual.
         '''
@@ -116,8 +123,11 @@ class App < Application
                 @lb_p_tot.configure :text => 'R$ 0,00'
                 @en_codig.delete 0, $cod.length
                 $val = 0
-            rescue 
+            rescue
+                puts 'clear' 
             end
+        else
+            return 'no clear'
         end        
     end
 
@@ -125,7 +135,7 @@ class App < Application
     def retirar
         indice =  @lv_codig.curselection[0]
         if indice.nil?
-            return
+            return 'nil'
         end
         array  = @lv_codig.value
         if array.length > 0  
@@ -143,4 +153,5 @@ end
 
 
 
-App.new.run
+App.new
+Tk.mainloop

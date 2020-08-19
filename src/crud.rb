@@ -4,8 +4,8 @@ $db = SQLite3::Database.new '../db/banco.db'
 $db.execute "CREATE TABLE IF NOT EXISTS produtos(cod TEXT, prod TEXT, prec FLOAT)"
 
 def db_insert a, b, c
-    if a.nil? or b.nil? or c.nil? 
-        return Exception
+    if a == "" or b == "" 
+        return 'blank'
     end
     $db.execute "INSERT INTO produtos (cod, prod, prec) VALUES(?, ?, ?)", a, b, c
 end
