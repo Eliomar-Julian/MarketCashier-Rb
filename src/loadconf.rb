@@ -1,39 +1,49 @@
+# // script responsavel por ler os arquivos de configuração presentes em './conf/'
+
 require 'json'
 require 'tk'
 require_relative 'view'
 
-# // leitura de configuração de das cores
+# // leitura de configuração de das cores----------------------------
 def read 
     js = File.read '../conf/conf.json'
     dict = JSON.parse js
     return dict
 end
 
-# // lista o historico de faturamento de vendas
+# // lista o historico de faturamento de vendas------------------
 def encerra 
+    
     def limpar_historico 
         res = Tk::Message.messageBox :type => 'yesno', 
                 :icon => 'warning', :title => 'apagar faturamento',
-                :message => """essa ação apagará todo o faturamento até então do histórico,\
+                :message => 
+                """
+                essa ação apagará todo o faturamento até então do histórico,\
                 deseja realmete limpar o historico de valores?
                 """
+        
         if res != 'yes' 
             return 'no'
         end
+        
         File.new '../conf/ftr', 'w'
         @ftr.destroy
     end
+    
     @ftr = Tk::Toplevel.new do 
         title 'Faturamento'
     end
     @ftr.configure :bg => read["theme"]["backgroundColor"]
     @ftr.iconbitmap "../images/icone.ico"
     @ftr.minsize 300, 300
+    
     arq = File.new '../conf/ftr', 'r'
     ver = arq.readlines
     lisbox = Tk::Listbox.new @ftr
     itens = []
     $ftr_val = 0
+    
     begin
         ver.map do |x|
             itens.push x.strip
@@ -45,13 +55,16 @@ def encerra
     rescue
         puts 'list nil'
     end
+    
     f = TkFont.new :size => 20, :weight => 'bold'
+    
     lb1 = Tk::Label.new @ftr do 
         text "Faturamento"
         bg read["theme"]["backgroundColor"]
         fg 'red'
         font f
     end
+    
     forma = "R$ #{'%.2f' % $ftr_val}"
     lb2 =  Tk::Label.new @ftr do 
         text forma
@@ -59,19 +72,20 @@ def encerra
         fg 'red'
         font f
     end
+    
     lisbox.pack :expand => true
     lb1.pack :expand => true
     lb2.pack :expand => true
     arq.close
+    
     bt = Tk::Button.new @ftr do 
         text 'Limpar histórico'
     end
     bt.pack :expand => true
     bt.configure :command => proc { limpar_historico }
-
 end
 
-# // função que muda o label de marketing
+# // função que muda o label de marketing----------------------------
 def nome
     def mude 
         dict = read 
@@ -80,6 +94,7 @@ def nome
         fil = File.new '../conf/conf.json', 'w'
         fil.puts trans
         fil.close
+        
         Tk::Message.messageBox :icon => 'info',
             :title => 'Marketing alterado',
             :message => 'O marketing foi alterado com sucesso!'
@@ -90,6 +105,7 @@ def nome
         title 'Alterar o marketing'
         bg read['theme']['backgroundColor']
     end
+    
     @nn.minsize 300, 200
     @nn.iconbitmap '../images/icone.ico'
 
@@ -113,18 +129,20 @@ def nome
     bt.configure :command => proc { mude }
 end
 
-# // manipulação da aparencia com cores
+# // manipulação da aparencia com cores----------------------------------
 def tema
     @main = Tk::Toplevel.new do 
         bg read['theme']['backgroundColor']
         title "Configurar aparência "
     end
+    
     @main.geometry '450x450+400+0'
     @main.iconbitmap '../images/icone.ico'
     
     # // manipula a hash de cores de acordo com o id do botão pressionado
     def manipule id
         dict = read
+        
         case id 
         when 1
             colorbutton = Tk.chooseColor
@@ -157,6 +175,7 @@ def tema
             end
             dict["theme"]["marketColor"] = colormarket.to_s
         end
+        
         novo = JSON.generate dict
         arq = File.new "../conf/conf.json", "w"
         arq.puts novo
@@ -172,6 +191,7 @@ def tema
         height 5
         bg read['theme']['backgroundButtons']
     end
+    
     bt1.pack :expand => true,
              :side => 'top'
     bt1.configure :command => proc { manipule 1 }
@@ -182,6 +202,7 @@ def tema
         height 5
         bg read['theme']['foregroundButtons']
     end
+    
     bt2.pack :expand => true,
              :side => 'top'
     bt2.configure :command => proc { manipule 2 }
@@ -192,6 +213,7 @@ def tema
         height 5
         bg read['theme']['backgroundColor']
     end
+    
     bt3.pack :expand => true,
              :side => 'top'
     bt3.configure :command => proc { manipule 3 }
@@ -202,6 +224,7 @@ def tema
         height 5
         bg read['theme']['auxiliarBackground']
     end
+    
     bt4.pack :expand => true,
             :side => 'top'
     bt4.configure :command => proc { manipule 4 }
@@ -212,6 +235,7 @@ def tema
         height 5
         bg read['theme']['marketColor']
     end
+    
     bt5.pack :expand => true,
              :side => 'top'
     bt5.configure :command => proc { manipule 5 }
