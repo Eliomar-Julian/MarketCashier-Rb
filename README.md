@@ -1,11 +1,11 @@
 # Market Cashier a little app to little business
 
-## Requeriments ⚙️⚙️
+## Requirements ⚙️⚙️
 * ruby > ~2.6.6
   * json
   * sqlite3
 
-## Usage 📖📖
+## What Using?  📖📖
 Only double click in MMarket shortcut or start.bat 😂😂😍
 
 ### Shortcuts links for you
@@ -14,5 +14,5 @@ Only double click in MMarket shortcut or start.bat 😂😂😍
 * > [__Sqlite3 lib for Ruby__](https://rubygems.org/gems/sqlite3) 🗄️🗄️ or use command line ' `gem install sqlite3` '
 * > [__json lib__](https://rubygems.org/gems/json) 🎄🎄 or use command line ' `gem install json` '
 
-# Add ruby to path
+# Add ruby to path operation system 
 
