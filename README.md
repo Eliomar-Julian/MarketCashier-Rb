@@ -14,5 +14,5 @@ Only double click in MMarket shortcut or start.bat 😂😂😍
 * > [__Sqlite3 lib for Ruby__](https://rubygems.org/gems/sqlite3) 🗄️🗄️ or use command line ' `gem install sqlite3` '
 * > [__json lib__](https://rubygems.org/gems/json) 🎄🎄 or use command line ' `gem install json` '
 
-# Add ruby to path operation system 
+# Add ruby to path system 
 
