@@ -2,8 +2,8 @@
 
 ## Requeriments ⚙️⚙️
 * ruby > ~2.6.6
-  * - json
-  * - sqlite3
+  * json
+  * sqlite3
 
 ## Usage 📖📖
 Only double click in MMarket shortcut or start.bat 😂😂😍
