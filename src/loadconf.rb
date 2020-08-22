@@ -7,7 +7,7 @@ require_relative 'view'
 # // leitura de configuração de das cores----------------------------
 def read 
     js = File.read '../conf/conf.json'
-    dict = JSON.parse js
+    dict = JSON.parse js.force_encoding(Encoding::UTF_8)
     return dict
 end
 
@@ -91,7 +91,7 @@ def nome
         dict = read 
         dict['nome'] = @en.get.strip
         trans = JSON.generate dict
-        fil = File.new '../conf/conf.json', 'w'
+        fil = File.new '../conf/conf.json', "w:UTF-8"
         fil.puts trans
         fil.close
         
